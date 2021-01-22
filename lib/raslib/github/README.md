@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
 #
 ## Control a motor with L298N controller and raslib
 Connections look like this: ![](https://alcalyn.github.io/assets/images/rpi-motors/rasp-l298n.png) 
-*from [https://alcalyn.github.io*](https://alcalyn.github.io/)*\
+*from [https://alcalyn.github.io](https://alcalyn.github.io/)*\
 "src/main.cpp" :
 ```cpp
 #include "raslib/raslib.hpp"
