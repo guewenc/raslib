@@ -7,7 +7,7 @@ I'm new to in the world of **C/C++**, you can suggest changes to me, ther is'nt 
 ***About copyright*** : *my library is opensource and you can use it like you want but I like to be mentioned. Don't steal their but make changes and re-publish them again. Otherwise it's useless.*
 #
 ## Add raslib library in your project :
-**Download** the .zip file [here](https://github.com/antoninhrlt/antoninhrlt.github.io/archive/main.zip)\
+**Download** the .zip file [here](https://github.com/antoninhrlt/raslib/archive/main.zip)\
 **Unzip** the .zip file\
 **Copy** "lib/raslib" folder vers the "include" folder of your projet folders\
 Normally, it should look like this :
