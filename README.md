@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 {
     rl::Gpio led {"Led"};
 
-    if(!rl::setup())
+    if(!rl::setup(true /* --> LOGS */))
     {
         led.set_pin(21);
         while(true)
@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
 {
     rl::Gpio led {"Led"};
 
-    if(!rl::setup())
+    if(!rl::setup(true /* --> LOGS */))
     {
         led.set_pin(21);
         led.output(rl::ON);
@@ -90,7 +90,7 @@ Connections look like this: ![](https://alcalyn.github.io/assets/images/rpi-moto
 
 int main(int argc, char* argv[])
 {
-    if(!rl::setup(false))
+    if(!rl::setup(true /* --> LOGS */))
     {
         rl::Motor motor {"Motor"};
         rl::Motor motor2 {"Motor2"};
