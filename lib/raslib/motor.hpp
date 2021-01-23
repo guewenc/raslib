@@ -19,8 +19,6 @@ namespace rl
             Motor(std::string const, int const, int const, int const);
 
             // Methods
-            int setup();
-            int setup(bool);
             int output(int const);
 
             // Setters
@@ -56,18 +54,6 @@ namespace rl
     }
 
     // Methods
-    int Motor::setup(bool logs)
-    {
-        Gpio null {"null"};
-        return null.setup(logs);
-    }
-
-    int Motor::setup()
-    {
-        Gpio null {"null"};
-        return null.setup(false);
-    }
-
     int Motor::output(int const put)
     {
         if(put == FORWARD)

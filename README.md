@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 {
     rl::Gpio led {"Led"};
 
-    if(!led.setup())
+    if(!rl::setup())
     {
         led.set_pin(21);
         while(true)
@@ -45,6 +45,10 @@ int main(int argc, char* argv[])
             led.output(rl::OFF);
             rl::sleep(500);
         }
+    }
+    else
+    {
+        return rl::log("Setup failed", -1);
     }
 
     return 0;
@@ -62,10 +66,14 @@ int main(int argc, char* argv[])
 {
     rl::Gpio led {"Led"};
 
-    if(!led.setup())
+    if(!rl::setup())
     {
         led.set_pin(21);
         led.output(rl::ON);
+    }
+    else
+    {
+        return rl::log("Setup failed", -1);
     }
 
     return 0;
@@ -82,25 +90,30 @@ Connections look like this: ![](https://alcalyn.github.io/assets/images/rpi-moto
 
 int main(int argc, char* argv[])
 {
-    rl::Motor motor {"Motor"};
-    if(!motor.setup())
-        motor.set_pins(14, 18, 15);
-
-    rl::Motor motor2 {"Motor2"};
-    if(!motor2.setup())
-        motor2.set_pins(25, 8, 7);
-
-    while(true)
+    if(!rl::setup(false))
     {
-        rl::sleep(5000);
-        // forward
-        motor.output(rl::ON);
-        motor2.output(rl::ON);
+        rl::Motor motor {"Motor"};
+        rl::Motor motor2 {"Motor2"};
 
-        rl::sleep(5000);
-        // stop
-        motor.output(rl::OFF); 
-        motor2.output(rl::OFF);
+        motor.set_pins(14, 18, 15);
+        motor2.set_pins(25, 8, 7);
+        
+        while(true)
+        {
+            rl::sleep(5000);
+            // forward
+            motor.output(rl::ON);
+            motor2.output(rl::ON);
+
+            rl::sleep(5000);
+            // stop
+            motor.output(rl::OFF); 
+            motor2.output(rl::OFF);
+        }
+    }
+    else
+    {
+        return rl::log("Setup failed", -1);
     }
 
     return 0;

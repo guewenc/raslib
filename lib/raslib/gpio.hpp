@@ -5,7 +5,6 @@
 
 #include <fstream>
 #include <string>
-#include <unistd.h> // To use the "acess()" function
 
 namespace rl
 {
@@ -24,8 +23,6 @@ namespace rl
             Gpio(std::string const, int const);
 
             // Methods
-            int setup();
-            int setup(bool);
             int output(int const);
 
             // Setters
@@ -63,67 +60,6 @@ namespace rl
     }
 
     // Methods
-    int Gpio::setup(bool logs)
-    {
-        if(logs)
-            Gpio::m_logs = true;
-
-        // check gpio and cpu informations files:
-        if(access(GPIO_PATH.c_str(), 0))
-            return log("Unable to acess to: " + GPIO_PATH, -1, true);
-        else if(Gpio::m_logs)
-            log(GPIO_PATH + ": acess confirmed", true);
-
-        if(access(CPUINFO_PATH.c_str(), 0))
-            return log("Unable to acess to: " + CPUINFO_PATH, -1, true);
-        else if(Gpio::m_logs)
-            log(CPUINFO_PATH + ": acess confirmed", true);
-
-        // get model:
-        std::ifstream cpuinfo_file {CPUINFO_PATH, std::ios::out};
-        if(cpuinfo_file)
-        {
-            if(Gpio::m_logs)
-                log(CPUINFO_PATH + " exists", true);
-            
-            std::string line {"undefined"};
-            bool found_model {false};
-
-            // get the model name of the raspberry, with reading file line per line until found the line contain "Model"
-            while(std::getline(cpuinfo_file, line))
-            {
-                if(line.find("Model") != std::string::npos)
-                {
-                    found_model = true;
-                    model = line;
-
-                    // keep only model name, not other informations
-                    size_t pos {model.find("Model\t\t: ")};
-                    (pos != std::string::npos) ? model.erase(pos, 9) : model = "error";
-                    break; // exit the loop
-               }
-            }
-
-            cpuinfo_file.close();
-
-            if(!found_model)
-               return log("Unable to find the model of Raspberry Pi", -1);
-            else if(Gpio::m_logs)
-                log(rl::model + ": model found");
-
-            return 0;
-        }
-        else
-        {
-            return log("Unable to open: " + CPUINFO_PATH, -1, true);
-        }
-    }
-
-    int Gpio::setup()
-    {
-        return Gpio::setup(false);
-    }
-
     int Gpio::output(int const put)
     {
         // direction:
@@ -132,7 +68,7 @@ namespace rl
         std::ofstream dir_file {DIR_PATH, std::ios::out};
         if(dir_file)
         {
-            if(Gpio::m_logs)
+            if(logs)
                 log(DIR_PATH + " exists", true);
 
             dir_file << "out";
@@ -150,14 +86,14 @@ namespace rl
         std::ofstream value_file {VALUE_PATH, std::ios::out};
         if(value_file)
         {
-            if(Gpio::m_logs)
+            if(logs)
                 log(VALUE_PATH + " exists", true);
 
             // check if it's ON or OFF and write in file
             (put) ? value_file << ON : value_file << OFF;
             value_file.close();  
 
-            if(Gpio::m_logs)
+            if(logs)
                 log("Pin \"" + Gpio::m_name + "\" (" + std::to_string(Gpio::m_pin) + ") set to " + std::to_string(put));
 
             return 0;
@@ -173,7 +109,7 @@ namespace rl
     void Gpio::set_name(std::string const name)
     {
         Gpio::m_name = name;
-        if(Gpio::m_logs)
+        if(logs)
             log("Name set to: " + Gpio::m_name);
     }
 
@@ -185,13 +121,13 @@ namespace rl
         std::ofstream export_file {GPIO_PATH + "export", std::ios::out};
         if(export_file)
         {
-            if(Gpio::m_logs)
+            if(logs)
                 log(GPIO_PATH + " exists", true);
 
             export_file << Gpio::m_pin;
             export_file.close();
 
-            if(Gpio::m_logs)
+            if(logs)
                 if(Gpio::m_pin == 0)
                     log("Pin \"" + Gpio::m_name + "\" set to UNDEFINED");
                 else
