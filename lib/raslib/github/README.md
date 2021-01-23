@@ -41,9 +41,9 @@ int main(int argc, char* argv[])
         while(true)
         {
             led.output(ON);
-            sleep(2000);
+            rl::sleep(2000);
             led.output(FF);
-            sleep(2000);
+            rl::sleep(2000);
         }
     }
 
@@ -92,12 +92,12 @@ int main(int argc, char* argv[])
 
     while(true)
     {
-        sleep(5000);
+        rl::sleep(5000);
         // forward
         motor.output(ON);
         motor2.output(ON);
 
-        sleep(5000);
+        rl::sleep(5000);
         // stop
         motor.output(OFF); 
         motor2.output(OFF);
