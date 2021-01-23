@@ -4,14 +4,20 @@
 #include <iostream>
 #include <string>
 
+namespace rl
+{
     int const ON {1};
     int const OFF {0};
+
+    int const FORWARD {1};
+    int const BACKWARD {-1};
+    int const STOP {0};
 
     std::string const GPIO_PATH {"/sys/class/gpio/"};
     std::string const CPUINFO_PATH {"/proc/cpuinfo"};
     std::string model {"undefined"};
 
-    void sleep(int how_long)
+    void sleep(int const how_long)
     {
         /**
          * This function was from GPIO Interface Lbrary For The Raspberry Pi : Wiring Pi (http://wiringpi.com/ ; https://github.com/WiringPi/WiringPi)
@@ -24,16 +30,23 @@
         nanosleep (&sleeper, &dummy) ;
     }
 
-    int log(std::string const message, int const flow)
+    int log(std::string const message, int const flow, bool const file)
     {
         if(flow == -1)
         {
-            std::cerr << "\033[0;41m" << "err>ras>" << message << "\033[0m" << std::endl;
+            if(file)
+                std::cerr << "\033[1;41m" << "err>raslib>" << message << "\033[0m" << std::endl;
+            else
+                std::cerr << "\033[0;41m" << "err>raslib>" << message << "\033[0m" << std::endl;
             return -1;
         }
         else if(flow == 0)
         {
-            std::cout << "\033[0;42m" << "ras>" << "\033[0m " << message << std::endl;
+            if(file)
+                std::cout << "\033[1;42m" << "raslib>" << "\033[0m\033[1m " << message << "\033[0m" << std::endl;
+            else
+                std::cout << "\033[0;42m" << "raslib>" << "\033[0m " << message << std::endl;
+            
             return 0;
         }
         else
@@ -42,9 +55,20 @@
         }
     }
 
+    int log(std::string const message, bool const file)
+    {
+        return log(message, 0, file);
+    }
+
+    int log(std::string const message, int const flow)
+    {
+        return log(message, flow, false);
+    }
+
     int log(std::string const message)
     {
         return log(message, 0);
     }
+}
 
 #endif

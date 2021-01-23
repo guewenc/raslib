@@ -33,17 +33,17 @@ Simple blink on GPIO21 (The pin at the bottom left on Raspberry Pi 4B)\
 
 int main(int argc, char* argv[])
 {
-    Gpio led {"Led"};
+    rl::Gpio led {"Led"};
 
     if(!led.setup())
     {
         led.set_pin(21);
         while(true)
         {
-            led.output(ON);
-            sleep(2000);
-            led.output(FF);
-            sleep(2000);
+            led.output(rl::ON);
+            rl::sleep(500);
+            led.output(rl::OFF);
+            rl::sleep(500);
         }
     }
 
@@ -60,12 +60,12 @@ int main(int argc, char* argv[])
 
 int main(int argc, char* argv[])
 {
-    Gpio led {"Led"};
+    rl::Gpio led {"Led"};
 
     if(!led.setup())
     {
         led.set_pin(21);
-        led.output(ON);
+        led.output(rl::ON);
     }
 
     return 0;
@@ -82,25 +82,25 @@ Connections look like this: ![](https://alcalyn.github.io/assets/images/rpi-moto
 
 int main(int argc, char* argv[])
 {
-    Motor motor {"Motor"};
+    rl::Motor motor {"Motor"};
     if(!motor.setup())
         motor.set_pins(14, 18, 15);
 
-    Motor motor2 {"Motor2"};
+    rl::Motor motor2 {"Motor2"};
     if(!motor2.setup())
         motor2.set_pins(25, 8, 7);
 
     while(true)
     {
-        sleep(5000);
+        rl::sleep(5000);
         // forward
-        motor.output(ON);
-        motor2.output(ON);
+        motor.output(rl::ON);
+        motor2.output(rl::ON);
 
-        sleep(5000);
+        rl::sleep(5000);
         // stop
-        motor.output(OFF); 
-        motor2.output(OFF);
+        motor.output(rl::OFF); 
+        motor2.output(rl::OFF);
     }
 
     return 0;
