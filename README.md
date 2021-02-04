@@ -9,7 +9,7 @@ I'm new to in the world of **C/C++**, you can suggest changes to me, ther is'nt 
 ## Add raslib library in your project :
 **Download** the .zip file [here](https://github.com/antoninhrlt/raslib/archive/main.zip)\
 **Unzip** the .zip file\
-**Copy** "lib/raslib" folder vers the "include" folder of your projet folders\
+**Copy** "lib/raslib" folder to the "include" folder of your projet folders\
 Normally, it should look like this :
 ```
 > /home/$USER/Documents/my_project
