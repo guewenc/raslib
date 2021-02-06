@@ -92,7 +92,6 @@ int main(int argc, char* argv[])
 ## Control a motor with L298N controller and raslib
 
 Connections look like this: *from [https://alcalyn.github.io](https://alcalyn.github.io/)*
-
 <img src="https://alcalyn.github.io/assets/images/rpi-motors/rasp-l298n.png" style="width: 50%;"/>
 
 A loop that moves the wheels forward every 5 seconds. "src/main.cpp" :
