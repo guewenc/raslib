@@ -1,34 +1,16 @@
 #include "raslib/raslib.hpp"
-#include "raslib/gpio.hpp"
-#include "raslib/motor.hpp"
+#include "raslib/rasgpio.hpp"
 
 int main(int argc, char* argv[])
 {
-    if(!rl::setup(false))
-    {
-        rl::Motor motor {"Motor"};
-        rl::Motor motor2 {"Motor2"};
+    raslib::gpio blue_led {"Blue led"};
 
-        motor.set_pins(14, 18, 15);
-        motor2.set_pins(25, 8, 7);
-        
-        while(true)
-        {
-            rl::sleep(5000);
-            // forward
-            motor.output(rl::ON);
-            motor2.output(rl::ON);
-
-            rl::sleep(5000);
-            // stop
-            motor.output(rl::OFF); 
-            motor2.output(rl::OFF);
-        }
-    }
-    else
+    if(!raslib::setup(raslib::NO_LOGS))
     {
-        return rl::log("Setup failed", -1);
+        blue_led.set_pin(7);
+        blue_led.output(raslib::ON);
     }
-    
+    else { return -1; }
+
     return 0;
 }
