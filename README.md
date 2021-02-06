@@ -1,5 +1,5 @@
 # raslib : C++ oriented-object library for Raspberry Pi
-*Version : 1.2*
+*Version : 1.2 (See the last part)* 
 
 This library include a management module for **GPIO** pins and a management module based on first module for motors with L298N controller.\
 The main objective of this library is to enable people to use **easily** their Raspberry and create **quickly** many projects.
@@ -77,7 +77,7 @@ int main(int argc, char* argv[])
 ```
 ## Control a motor with L298N controller and raslib
 Connections look like this: ![](https://alcalyn.github.io/assets/images/rpi-motors/rasp-l298n.png) 
-*from [https://alcalyn.github.io](https://alcalyn.github.io/)*
+*from [https://alcalyn.github.io](https://alcalyn.github.io/)*\
 A loop that moves the wheels forward every 5 seconds. "src/main.cpp" :
 
 ```cpp
@@ -112,3 +112,11 @@ int main(int argc, char* argv[])
     return 0;
 }
 ```
+
+# Release Notes :
+
+The library has been totally revisited in its version 1.2, but if the version has not become 2.x it's because the changes are not really at the code level, indeed the changes that have been made are :
+- The separation of header files (.cpp and .hpp)
+- Changing namespace to "raslib" instead of "rl" who was considered too implicit.
+- The removing the logs (in fact, when calling the "raslib::setup()" function, for the moment, whether you choose "raslib::NO_LOGS" or "raslib::LOGS" it has no impact, the logs are disabled but will come back in version 1.3. Some changes have to be made and this can't be done immediately.
+So it's not really a new version of raslib full of new features but a revisit of version 1.1 (which is not publicly available anymore).
