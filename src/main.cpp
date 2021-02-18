@@ -4,7 +4,7 @@
 
 int main(int argc, char **argv)
 {
-    if(rs::setup() != -1)
+    if(rs::setup() == 0)
     {
         rs::Motor motor {"Motor Left"};
         motor.define(14, 18, 15);
@@ -15,12 +15,15 @@ int main(int argc, char **argv)
     }
 
     rs::SockServer server {"192.168.1.55", 8998};
-    server.bind_sock();
-    server.listen_clients(1);
-
-    int signal;
-    server.received(&signal);
-    rs::out("$i", signal);
+    if(server.bind_sock() == 0)
+    {
+        if(server.listen_clients(1) == 0)
+        {
+            int signal;
+            server.received(&signal);
+            rs::out("$i", signal);
+        }
+    }
 
     return 0;
 }

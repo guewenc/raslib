@@ -17,10 +17,10 @@
         {
             public:
                 SockServer(std::string ip, int port);
-                void bind_sock();
-                void listen_clients(int connections);
+                int bind_sock();
+                int listen_clients(int connections);
                 void received(void *object);
-                std::string get_ip();
+                void close_sock();
 
             private:
                 std::string m_ip;

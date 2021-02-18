@@ -7,27 +7,42 @@ namespace rs
         this->m_ip = ip;
         this->m_port = port;
         this->m_socket = socket(AF_INET, SOCK_STREAM, 0);
+        if(this->m_socket != -1)
+            out("Socket created");
+        else
+            out("Server can't be created");
 
         this->m_addr_server.sin_addr.s_addr = inet_addr(this->m_ip.c_str());
         this->m_addr_server.sin_family = AF_INET;
         this->m_addr_server.sin_port = htons(this->m_port);
     }
 
-    void SockServer::bind_sock()
+    int SockServer::bind_sock()
     {
-        bind(this->m_socket, (sockaddr*)&this->m_addr_server, sizeof(this->m_addr_server));
-        out("Server bind on : " + this->m_ip);
+        if(bind(this->m_socket, (sockaddr*)&this->m_addr_server, sizeof(this->m_addr_server)) != -1)
+        {
+            out("Server bind on : " + this->m_ip);
+            return 0;
+        }
+        out("Server can't bind on : " + this->m_ip);
+        return -1;
     }
 
-    void SockServer::listen_clients(int connections)
+    int SockServer::listen_clients(int connections)
     {
         this->m_connections = connections;
-        listen(this->m_socket, this->m_connections);
-        out("Server listen on port " + std::to_string(this->m_port));
+        if(listen(this->m_socket, this->m_connections) != -1)
+        {
+            out("Server listen on port $i", this->m_port);
+            return 0;
+        }
+        out("Server can't listen on port $i", this->m_port);
+        return -1;
     }
 
     void SockServer::received(void *object)
     {
+        out("Wait for clients ...");
         for(int i {0}; i < m_connections; i++)
         {
             struct sockaddr_in addr_client;
@@ -36,6 +51,13 @@ namespace rs
             int socket_cli {accept(this->m_socket, (sockaddr*)&addr_client, &csize)};
             out("Connection accepted. Client : $i", socket_cli);
             recv(socket_cli, &object, sizeof(object), 0);
+
+            close(socket_cli);
         }
+    }
+
+    void SockServer::close_sock()
+    {
+        close(this->m_socket);
     }
 }
