@@ -1,16 +1,22 @@
-#include "raslib/raslib.hpp"
-#include "raslib/rasgpio.hpp"
+#include <raslib/gpio/gpio.hpp>
+#include <raslib/motor/motor.hpp>
+#include <raslib/socket/socket.hpp>
 
-int main(int argc, char* argv[])
+int main(int argc, char **argv)
 {
-    raslib::gpio blue_led {"Blue led"};
-
-    if(!raslib::setup(raslib::NO_LOGS))
+    if(rs::setup() != -1)
     {
-        blue_led.set_pin(7);
-        blue_led.output(raslib::ON);
+        rs::Gpio led {21};
+        led.write(rs::ON);
     }
-    else { return -1; }
+
+    rs::SockServer server {"192.168.1.55", 8998};
+    server.bind_sock();
+    server.listen_clients(1);
+
+    int signal;
+    server.received(&signal);
+    rs::out("$i", signal);
 
     return 0;
 }
