@@ -19,7 +19,7 @@
                 SockServer(std::string ip, int port);
                 int bind_sock();
                 int listen_clients(int connections);
-                void received(void *object);
+                int received();
                 void close_sock();
 
             private:

@@ -40,20 +40,20 @@ namespace rs
         return -1;
     }
 
-    void SockServer::received(void *object)
+    int SockServer::received()
     {
-        out("Wait for clients ...");
-        for(int i {0}; i < m_connections; i++)
-        {
-            struct sockaddr_in addr_client;
-            socklen_t csize = sizeof(addr_client);
+        int signal {0};
 
-            int socket_cli {accept(this->m_socket, (sockaddr*)&addr_client, &csize)};
-            out("Connection accepted. Client : $i", socket_cli);
-            recv(socket_cli, &object, sizeof(object), 0);
+        out("Wait for client ...");
+        struct sockaddr_in addr_client;
+        socklen_t csize = sizeof(addr_client);
 
-            close(socket_cli);
-        }
+        int socket_cli {accept(this->m_socket, (sockaddr*)&addr_client, &csize)};
+        out("Connection accepted. Client id : $i", socket_cli);
+        recv(socket_cli, &signal, sizeof(signal), 0);
+        close(socket_cli);
+        
+        return signal;
     }
 
     void SockServer::close_sock()

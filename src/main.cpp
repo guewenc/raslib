@@ -14,14 +14,14 @@ int main(int argc, char **argv)
         led.write(rs::ON);
     }
 
-    rs::SockServer server {"192.168.1.55", 8998};
+    rs::SockServer server {"192.168.1.52", 8998};
     if(server.bind_sock() == 0)
     {
         if(server.listen_clients(1) == 0)
         {
-            int signal;
-            server.received(&signal);
-            rs::out("$i", signal);
+            int signal {0};
+            signal = server.received();
+            rs::out("received : $i", signal);
         }
     }
 
