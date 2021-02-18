@@ -82,7 +82,7 @@ int main(int argc, char **argv)
 }
 ```
 Your connections :
-
+*from https://alcalyn.github.io/assets/images/rpi-motors/rasp-l298n.png*
 ![Scheme](https://alcalyn.github.io/assets/images/rpi-motors/rasp-l298n.png)
 
 ---
