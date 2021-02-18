@@ -6,6 +6,10 @@ int main(int argc, char **argv)
 {
     if(rs::setup() != -1)
     {
+        rs::Motor motor {"Motor Left"};
+        motor.define(14, 18, 15);
+        motor.write(rs::FORWARD);
+
         rs::Gpio led {21};
         led.write(rs::ON);
     }
