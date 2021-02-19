@@ -68,7 +68,7 @@
             char       buf[80];
             tstruct = *localtime(&now);
 
-            strftime(buf, sizeof(buf), "%F %T.%s", &tstruct);
+            strftime(buf, sizeof(buf), "%F %X", &tstruct);
 
             return buf;
         }
