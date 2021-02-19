@@ -6,6 +6,7 @@
     #include <unistd.h>
     #include <string>
     #include <fstream>
+    #include <time.h>
 
     namespace rs
     {

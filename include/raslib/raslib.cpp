@@ -61,11 +61,25 @@
             else { __putstr("\033[0m"); *start = true; }
         }
 
+        std::string __get_datetime() 
+        {
+            time_t     now = time(0);
+            struct tm  tstruct;
+            char       buf[80];
+            tstruct = *localtime(&now);
+
+            strftime(buf, sizeof(buf), "%F %T.%s", &tstruct);
+
+            return buf;
+        }
+
         void out(std::string format, ...)
         {
             bool start {true};           
             va_list args;
             va_start(args, format); 
+
+            __putstr(__get_datetime() + " ");
     
             for(int i {0}; i < format.length(); i++)
             {
