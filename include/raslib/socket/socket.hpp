@@ -18,16 +18,19 @@
             public:
                 SockServer(std::string ip, int port);
                 int bind_sock();
-                int listen_clients(int connections);
+                int listen_client();
+                void accept_client();
                 int received();
+                void close_client();
                 void close_sock();
 
             private:
                 std::string m_ip;
 
                 struct sockaddr_in m_addr_server;
+                struct sockaddr_in m_addr_client;
                 int m_socket;
-                int m_connections;
+                int m_socket_client;
                 int m_port;
         };
     }

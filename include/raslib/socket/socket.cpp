@@ -28,10 +28,9 @@ namespace rs
         return -1;
     }
 
-    int SockServer::listen_clients(int connections)
+    int SockServer::listen_client()
     {
-        this->m_connections = connections;
-        if(listen(this->m_socket, this->m_connections) != -1)
+        if(listen(this->m_socket, 1) != -1)
         {
             out("Server listen on port $i", this->m_port);
             return 0;
@@ -40,20 +39,28 @@ namespace rs
         return -1;
     }
 
+    void SockServer::accept_client()
+    {
+        out("Wait for client ...");
+        this->m_addr_client;
+        socklen_t csize = sizeof(this->m_addr_client);
+
+        this->m_socket_client = accept(this->m_socket, (sockaddr*)&this->m_addr_client, &csize);
+        out("Connection accepted. Client value : $i", this->m_socket_client);
+    }
+
     int SockServer::received()
     {
         int signal {0};
-
-        out("Wait for client ...");
-        struct sockaddr_in addr_client;
-        socklen_t csize = sizeof(addr_client);
-
-        int socket_cli {accept(this->m_socket, (sockaddr*)&addr_client, &csize)};
-        out("Connection accepted. Client id : $i", socket_cli);
-        recv(socket_cli, &signal, sizeof(signal), 0);
-        close(socket_cli);
+        recv(this->m_socket_client, &signal, sizeof(signal), 0);
         
         return signal;
+    }
+
+    void SockServer::close_client()
+    {
+        out("Connection closed");
+        close(this->m_socket_client);
     }
 
     void SockServer::close_sock()
